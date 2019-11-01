@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, Text, FlatList} from 'react-native';
+import {SafeAreaView, FlatList} from 'react-native';
 import {
   Appbar,
   DarkTheme,
@@ -7,15 +7,12 @@ import {
   Avatar,
   ActivityIndicator,
 } from 'react-native-paper';
+import idx from 'idx';
 
-import {CHARACTER} from './queries/CharactersQuery';
-import {useQuery} from '@apollo/react-hooks';
-import {
-  CharactersQuery,
-  CharactersQuery_characters_results,
-} from './__generated/apollogen-types';
+import {useCharactersQuery} from './queries/CharactersQuery';
+import {CharactersQuery_characters_results} from './__generated/apollogen-types';
 
-const CharacterItem = (props: {
+export const CharacterItem = (props: {
   character: CharactersQuery_characters_results | null;
 }) => {
   const {character} = props;
@@ -25,6 +22,7 @@ const CharacterItem = (props: {
   const uri = (character && character.image) || undefined;
   return (
     <List.Item
+      testID={'CharacterItem'}
       key={key}
       style={{paddingHorizontal: 16}}
       title={title}
@@ -34,11 +32,31 @@ const CharacterItem = (props: {
   );
 };
 
-const MainScreen = () => {
-  const {loading, error, data} = useQuery<CharactersQuery>(CHARACTER);
-  if (error || (!loading && !data)) {
+export const CharactersList = (props: {
+  charactersResults: (CharactersQuery_characters_results | null)[] | null;
+}) => {
+  if (props.charactersResults) {
+    return (
+      <FlatList
+        testID={'CharactersList'}
+        data={props.charactersResults}
+        renderItem={({item}) => <CharacterItem character={item} />}
+      />
+    );
+  } else {
+    return <ActivityIndicator testID={'CharactersListActivityIndicator'} />;
+  }
+};
+
+export const MainScreen = () => {
+  const {loading, error, data: charactersData} = useCharactersQuery();
+  if (error || (!loading && !charactersData)) {
     console.warn('Needs Error Handling');
   }
+  const charactersResult = idx(
+    charactersData,
+    _ => _.characters.results,
+  ) as (CharactersQuery_characters_results | null)[];
   return (
     <SafeAreaView
       style={{flex: 1, backgroundColor: DarkTheme.colors.background}}>
@@ -49,16 +67,7 @@ const MainScreen = () => {
           onPress={() => console.warn('Coming Soon')}
         />
       </Appbar.Header>
-      {data && data.characters && data.characters.results ? (
-        <FlatList
-          data={data.characters.results}
-          renderItem={({item}) => <CharacterItem character={item} />}
-        />
-      ) : (
-        <ActivityIndicator />
-      )}
+      <CharactersList charactersResults={charactersResult} />
     </SafeAreaView>
   );
 };
-
-export {MainScreen};
