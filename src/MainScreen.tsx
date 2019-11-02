@@ -9,8 +9,15 @@ import {
 } from 'react-native-paper';
 import idx from 'idx';
 
-import {useCharactersQuery} from './queries/CharactersQuery';
-import {CharactersQuery_characters_results} from './__generated/apollogen-types';
+import {
+  useCharactersQuery,
+  CHARACTERS_QUERY,
+  fetchMoreCharactersUpdateQuery,
+} from './queries/CharactersQuery';
+import {
+  CharactersQuery_characters_results,
+  CharactersQuery_characters_info,
+} from './__generated/apollogen-types';
 
 export const CharacterItem = (props: {
   character: CharactersQuery_characters_results | null;
@@ -34,6 +41,7 @@ export const CharacterItem = (props: {
 
 export const CharactersList = (props: {
   charactersResults: (CharactersQuery_characters_results | null)[] | null;
+  onEndReached: () => undefined;
 }) => {
   if (props.charactersResults) {
     return (
@@ -41,6 +49,7 @@ export const CharactersList = (props: {
         testID={'CharactersList'}
         data={props.charactersResults}
         renderItem={({item}) => <CharacterItem character={item} />}
+        onEndReached={props.onEndReached}
       />
     );
   } else {
@@ -49,14 +58,17 @@ export const CharactersList = (props: {
 };
 
 export const MainScreen = () => {
-  const {loading, error, data: charactersData} = useCharactersQuery();
+  const {
+    loading,
+    error,
+    data: charactersData,
+    fetchMore,
+  } = useCharactersQuery();
   if (error || (!loading && !charactersData)) {
     console.warn('Needs Error Handling');
   }
-  const charactersResult = idx(
-    charactersData,
-    _ => _.characters.results,
-  ) as (CharactersQuery_characters_results | null)[];
+  const charactersInfo = idx(charactersData, _ => _.characters.info);
+  const charactersResult = idx(charactersData, _ => _.characters.results);
   return (
     <SafeAreaView
       style={{flex: 1, backgroundColor: DarkTheme.colors.background}}>
@@ -67,7 +79,18 @@ export const MainScreen = () => {
           onPress={() => console.warn('Coming Soon')}
         />
       </Appbar.Header>
-      <CharactersList charactersResults={charactersResult} />
+      <CharactersList
+        charactersResults={charactersResult}
+        onEndReached={() => {
+          if (charactersInfo && charactersInfo.next) {
+            fetchMore({
+              query: CHARACTERS_QUERY,
+              updateQuery: fetchMoreCharactersUpdateQuery,
+              variables: {page: charactersInfo.next},
+            });
+          }
+        }}
+      />
     </SafeAreaView>
   );
 };

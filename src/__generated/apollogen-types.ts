@@ -48,6 +48,10 @@ export interface CharactersQuery {
   characters: CharactersQuery_characters | null;
 }
 
+export interface CharactersQueryVariables {
+  page?: number | null;
+}
+
 /* tslint:disable */
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
