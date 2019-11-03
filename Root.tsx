@@ -6,13 +6,13 @@ import ApolloClient from 'apollo-boost';
 const API_BASE = 'https://rickandmortyapi.com/graphql/';
 const client = new ApolloClient({uri: API_BASE});
 
-import {MainScreen} from './src/MainScreen';
+import Navigator from './src/Navigator';
 
 const Root = () => {
   return (
     <ApolloProvider client={client}>
       <PaperProvider theme={DarkTheme}>
-        <MainScreen />
+        <Navigator />
       </PaperProvider>
     </ApolloProvider>
   );

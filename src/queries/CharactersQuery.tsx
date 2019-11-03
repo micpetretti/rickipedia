@@ -6,8 +6,8 @@ import {
 } from '../__generated/apollogen-types';
 
 export const CHARACTERS_QUERY = gql`
-  query CharactersQuery($page: Int) {
-    characters(page: $page) {
+  query CharactersQuery($page: Int, $filter: FilterCharacter) {
+    characters(page: $page, filter: $filter) {
       info {
         next
       }
@@ -41,14 +41,19 @@ export const fetchMoreCharactersUpdateQuery = (
   ];
   return {
     characters: {
-      __typename: 'Characters',
+      __typename: previousResult.characters.__typename,
       info: fetchMoreResult.characters.info,
       results,
     },
   };
 };
 
-const useCharactersQuery = (variables?: CharactersQueryVariables) => {
-  return useQuery<CharactersQuery, CharactersQueryVariables>(CHARACTERS_QUERY);
+const useCharactersQuery = (
+  options?: QueryHookOptions<CharactersQuery, CharactersQueryVariables>,
+) => {
+  return useQuery<CharactersQuery, CharactersQueryVariables>(
+    CHARACTERS_QUERY,
+    options,
+  );
 };
 export {useCharactersQuery};

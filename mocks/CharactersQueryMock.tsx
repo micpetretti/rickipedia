@@ -4,6 +4,7 @@ import {
   CharactersQuery_characters_info,
   CharactersQuery,
 } from '../src/__generated/apollogen-types';
+import {GraphQLError} from 'graphql';
 
 export const nullResult: CharactersQuery_characters_results = {
   __typename: 'Character',
@@ -58,6 +59,14 @@ export const infoPage2: CharactersQuery_characters_info = {
   next: 3,
 };
 
+const RickSearchMockResponse: CharactersQuery = {
+  characters: {
+    __typename: 'Characters',
+    info: infoPage1,
+    results: [resultRick],
+  },
+};
+
 export const fullMockResponsePage1: CharactersQuery = {
   characters: {
     __typename: 'Characters',
@@ -94,6 +103,30 @@ export const fullCharactersProviderMockPage2 = [
     },
     result: {
       data: fullMockResponsePage2,
+    },
+  },
+];
+
+export const charactersProviderErrorMock = [
+  {
+    request: {
+      query: CHARACTERS_QUERY,
+      variables: {},
+    },
+    result: {
+      errors: [new GraphQLError('Error!')],
+    },
+  },
+];
+
+export const fullCharactersProviderMockSearch = [
+  {
+    request: {
+      query: CHARACTERS_QUERY,
+      variables: {filter: {name: 'Rick'}},
+    },
+    result: {
+      data: RickSearchMockResponse,
     },
   },
 ];
