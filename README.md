@@ -33,12 +33,12 @@ yarn gql-make
 ```
 
 # Testing
-For unit testing Rickipedia relies on Jest in combination with react-native-testing-library. To run theme all:
+For unit testing Rickipedia relies on Jest in combination with react-native-testing-library. To run them all:
 ```
 yarn test
 ```
 
-Knowing warnings issue: Apollo GraphQl mock provider, which is used to mock the backend, triggers state updates which makes Jest print the warning:
+Known warnings issue: Apollo GraphQl mock provider, which is used to mock the backend, triggers state updates using hooks. To be able to test hooks behavior you need to wrap the passage in `act`. But now the whole test would need to be wrapped which breaks the rendering itself. So it prints for every test involving mocked backend responses:
 ```
 When testing, code that causes React state updates should be wrapped into act(...):
 
@@ -47,4 +47,4 @@ When testing, code that causes React state updates should be wrapped into act(..
       });
       /* assert on the output */
 ```
-The tests work fine and test what is expected but I didn't find out how to 
+The tests work fine and they do test what is expected but I couldn't figure out how to resolve it. Hints welcome.
