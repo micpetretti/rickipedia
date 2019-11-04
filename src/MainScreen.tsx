@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {SafeAreaView, FlatList, Keyboard} from 'react-native';
+import {FlatList, Keyboard, View} from 'react-native';
 import {
   Appbar,
   List,
@@ -97,8 +97,7 @@ export const MainScreen = (props: {navigation: NavigationStackProp}) => {
     return <ErrorScreen refetch={refetch} />;
   }
   return (
-    <SafeAreaView
-      style={{flex: 1, backgroundColor: paperTheme.colors.background}}>
+    <View style={{flex: 1, backgroundColor: paperTheme.colors.background}}>
       <Appbar.Header>
         <Appbar.Content title="Rickipedia" subtitle="and some Morty stuff." />
         <Appbar.Action
@@ -115,6 +114,6 @@ export const MainScreen = (props: {navigation: NavigationStackProp}) => {
         loading={!charactersData}
         navigation={props.navigation}
       />
-    </SafeAreaView>
+    </View>
   );
 };

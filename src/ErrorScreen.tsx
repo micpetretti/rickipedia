@@ -1,9 +1,9 @@
 import React from 'react';
-import {SafeAreaView, View} from 'react-native';
+import { View} from 'react-native';
 import {Appbar, DarkTheme, Button, Text} from 'react-native-paper';
 
 export const ErrorScreen = (props: {refetch: () => void}) => (
-  <SafeAreaView
+  <View
     testID={'ErrorScreen'}
     style={{flex: 1, backgroundColor: DarkTheme.colors.background}}>
     <Appbar.Header>
@@ -24,5 +24,5 @@ export const ErrorScreen = (props: {refetch: () => void}) => (
         <Text>{'Try again'}</Text>
       </Button>
     </View>
-  </SafeAreaView>
+  </View>
 );

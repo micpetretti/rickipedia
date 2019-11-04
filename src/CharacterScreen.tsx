@@ -119,8 +119,7 @@ export const CharacterScreen = (props: {navigation: NavigationStackProp}) => {
     return <ErrorScreen refetch={refetch} />;
   }
   return (
-    <SafeAreaView
-      style={{flex: 1, backgroundColor: paperTheme.colors.background}}>
+    <View style={{flex: 1, backgroundColor: paperTheme.colors.background}}>
       <Appbar.Header>
         <Appbar.BackAction
           testID={'CharacterScreenBackButton'}
@@ -161,6 +160,6 @@ export const CharacterScreen = (props: {navigation: NavigationStackProp}) => {
           />
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };

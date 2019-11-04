@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {SafeAreaView} from 'react-native';
+import {View} from 'react-native';
 import {Appbar, Searchbar, useTheme} from 'react-native-paper';
 import idx from 'idx';
 
@@ -27,8 +27,7 @@ export const SearchScreen = (props: {navigation: NavigationStackProp}) => {
     return <ErrorScreen refetch={refetch} />;
   }
   return (
-    <SafeAreaView
-      style={{flex: 1, backgroundColor: paperTheme.colors.background}}>
+    <View style={{flex: 1, backgroundColor: paperTheme.colors.background}}>
       <Appbar.Header>
         <Appbar.BackAction
           testID={'SearchScreenBackButton'}
@@ -52,6 +51,6 @@ export const SearchScreen = (props: {navigation: NavigationStackProp}) => {
         loading={charactersLoading}
         navigation={props.navigation}
       />
-    </SafeAreaView>
+    </View>
   );
 };
