@@ -20,10 +20,6 @@ export interface CharacterDetailQuery_character_origin {
    * The dimension in which the location is located.
    */
   dimension: string | null;
-  /**
-   * Time at which the location was created in the database.
-   */
-  created: string | null;
 }
 
 export interface CharacterDetailQuery_character_location {
@@ -40,10 +36,6 @@ export interface CharacterDetailQuery_character_location {
    * The dimension in which the location is located.
    */
   dimension: string | null;
-  /**
-   * Time at which the location was created in the database.
-   */
-  created: string | null;
 }
 
 export interface CharacterDetailQuery_character_episode {
@@ -97,10 +89,6 @@ export interface CharacterDetailQuery_character {
    * Episodes in which this character appeared.
    */
   episode: (CharacterDetailQuery_character_episode | null)[] | null;
-  /**
-   * Time at which the character was created in the database.
-   */
-  created: string | null;
 }
 
 export interface CharacterDetailQuery {

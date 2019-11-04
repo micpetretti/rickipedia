@@ -17,20 +17,17 @@ export const CHARACTER_DETAIL_QUERY = gql`
         name
         type
         dimension
-        created
       }
       location {
         name
         type
         dimension
-        created
       }
       image
       episode {
         name
         episode
       }
-      created
     }
   }
 `;
